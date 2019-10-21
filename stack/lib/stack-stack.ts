@@ -38,20 +38,16 @@ export class StackStack extends cdk.Stack {
     });
 
     const cv = fn.latestVersion;
-    const fnVersion = fn.addVersion(version, undefined, version);
-
-    ["development", "production"].forEach((stage) => {
-      if (stage === env) {
-        new lambda.Alias(this, `${env}Alias`, {
-          aliasName: env,
-          version: fnVersion,
-        });
-      } else {
-        lambda.Alias.fromAliasAttributes(this, `${stage}Alias`, {
-          aliasName: stage,
-          aliasVersion: cv,
-        });
-      }
+    new lambda.Alias(this, `ProductionAlias`, {
+      aliasName: "production",
+      version: cv,
     });
+
+    const fnVersion = fn.addVersion(version, undefined, version);
+    new lambda.Alias(this, `DevelopmentAlias`, {
+      aliasName: "development",
+      version: fnVersion,
+    });
+
   }
 }
