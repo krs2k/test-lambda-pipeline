@@ -1,5 +1,4 @@
 import apigateway = require("@aws-cdk/aws-apigateway");
-import codedeploy = require("@aws-cdk/aws-codedeploy");
 import lambda = require("@aws-cdk/aws-lambda");
 import cdk = require("@aws-cdk/core");
 // @ts-ignore
@@ -38,16 +37,21 @@ export class StackStack extends cdk.Stack {
       handler: fn,
     });
 
+    const cv = fn.latestVersion;
     const fnVersion = fn.addVersion(version, undefined, version);
 
-    const alias = new lambda.Alias(this, `${env}Alias`, {
-        aliasName: env,
-        version: fnVersion,
-      });
-
-    new codedeploy.LambdaDeploymentGroup(this, "DeploymentGroup", {
-      alias,
-      deploymentConfig: codedeploy.LambdaDeploymentConfig.LINEAR_10PERCENT_EVERY_1MINUTE,
+    ["development", "production"].forEach((stage) => {
+      if (stage === env) {
+        new lambda.Alias(this, `${env}Alias`, {
+          aliasName: env,
+          version: fnVersion,
+        });
+      } else {
+        lambda.Alias.fromAliasAttributes(this, `${stage}Alias`, {
+          aliasName: stage,
+          aliasVersion: cv,
+        });
+      }
     });
   }
 }
