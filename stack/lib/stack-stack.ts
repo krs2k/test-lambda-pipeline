@@ -29,11 +29,14 @@ export class StackStack extends cdk.Stack {
       },
 
     });
-
-    fn.addVersion("1.0.3", undefined, "1.0.3");
-
     const api = new apigateway.LambdaRestApi(this, "Api", {
       handler: fn,
+    });
+
+    const fnVersion = fn.addVersion(version, undefined, version);
+    const alias = new lambda.Alias(this, "Alias", {
+      aliasName: this.env.value.toString(),
+      version: fnVersion,
     });
   }
 }
