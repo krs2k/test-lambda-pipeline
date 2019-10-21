@@ -26,6 +26,7 @@ export class StackStack extends cdk.Stack {
       tracing: lambda.Tracing.ACTIVE,
       environment: {
         NODE_ENV: this.env.value.toString(),
+        VERSION: version,
       },
 
     });
