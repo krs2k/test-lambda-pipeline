@@ -33,7 +33,8 @@ export class StackStack extends cdk.Stack {
       },
 
     });
-    const api = new apigateway.RestApi(this, "Api", {
+    const api = new apigateway.LambdaRestApi(this, "Api", {
+      handler: fn,
     });
 
     const deployment = new apigateway.Deployment(this, "ApiDeployment", {
@@ -44,10 +45,11 @@ export class StackStack extends cdk.Stack {
       stageName: "production",
       deployment,
     });
-    new apigateway.Stage(this, "DevStage", {
+    const stage = new apigateway.Stage(this, "DevStage", {
       stageName: "development",
       deployment,
     });
+
     // const cv = fn.latestVersion;
     // new lambda.Alias(this, `ProductionAlias`, {
     //   aliasName: "production",
