@@ -19,6 +19,7 @@ export class StackStack extends cdk.Stack {
     });
 
     const fn = new lambda.Function(this, "Function", {
+      functionName: "Deploy-Test",
       runtime: lambda.Runtime.NODEJS_8_10,
       handler: "index.handler",
       code: this.lambdaCode,
