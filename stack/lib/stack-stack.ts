@@ -29,7 +29,7 @@ export class StackStack extends cdk.Stack {
 
     });
 
-    fn.addVersion("1.0.2");
+    fn.addVersion("1.0.3", undefined, "1.0.3");
 
     const api = new apigateway.LambdaRestApi(this, "Api", {
       handler: fn,
