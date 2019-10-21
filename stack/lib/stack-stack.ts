@@ -1,6 +1,7 @@
 import apigateway = require("@aws-cdk/aws-apigateway");
 import lambda = require("@aws-cdk/aws-lambda");
 import cdk = require("@aws-cdk/core");
+// @ts-ignore
 import {version} from "../../package.json";
 
 export class StackStack extends cdk.Stack {
