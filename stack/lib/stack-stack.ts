@@ -1,6 +1,7 @@
 import apigateway = require("@aws-cdk/aws-apigateway");
 import lambda = require("@aws-cdk/aws-lambda");
 import cdk = require("@aws-cdk/core");
+import {version} from "../../package.json";
 
 export class StackStack extends cdk.Stack {
   public readonly lambdaCode: lambda.CfnParametersCode;
@@ -26,6 +27,8 @@ export class StackStack extends cdk.Stack {
       },
 
     });
+
+    fn.addVersion(version);
 
     const api = new apigateway.LambdaRestApi(this, "Api", {
       handler: fn,
