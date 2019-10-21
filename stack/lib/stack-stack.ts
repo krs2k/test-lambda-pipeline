@@ -1,4 +1,5 @@
 import apigateway = require("@aws-cdk/aws-apigateway");
+import {LambdaIntegration} from "@aws-cdk/aws-apigateway";
 import lambda = require("@aws-cdk/aws-lambda");
 import cdk = require("@aws-cdk/core");
 // @ts-ignore
@@ -33,41 +34,7 @@ export class StackStack extends cdk.Stack {
       },
 
     });
-    const api = new apigateway.LambdaRestApi(this, "Api", {
-      handler: fn,
-      deployOptions: undefined,
-    });
 
-    const deployment = new apigateway.Deployment(this, "ApiDeployment", {
-      api,
-    });
-
-    new apigateway.Stage(this, "ProdStage", {
-      stageName: "production",
-      deployment,
-      variables: {
-        lambdaAlias: "production",
-      },
-    });
-    const stage = new apigateway.Stage(this, "DevStage", {
-      stageName: "development",
-      deployment,
-      variables: {
-        lambdaAlias: "development",
-      },
-    });
-
-    // const cv = fn.latestVersion;
-    // new lambda.Alias(this, `ProductionAlias`, {
-    //   aliasName: "production",
-    //   version: cv,
-    // });
-    //
-    // const fnVersion = fn.addVersion(version, undefined, version);
-    // new lambda.Alias(this, `DevelopmentAlias`, {
-    //   aliasName: "development",
-    //   version: fnVersion,
-    // });
-
+    fn.addVersion(new Date().getTime().toString(), undefined, version);
   }
 }
