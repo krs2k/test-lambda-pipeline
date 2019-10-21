@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import cdk = require('@aws-cdk/core');
-import { StackStack } from '../lib/stack-stack';
+import cdk = require("@aws-cdk/core");
+import "source-map-support/register";
+import { StackStack } from "../lib/stack-stack";
 
 const app = new cdk.App();
-new StackStack(app, 'StackStack');
+
+const dev = new StackStack(app, "dev", {env: "development"});
+const prod = new StackStack(app, "prod", {env: "production"});

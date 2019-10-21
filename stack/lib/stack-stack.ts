@@ -4,13 +4,15 @@ import cdk = require("@aws-cdk/core");
 // @ts-ignore
 import {version} from "../../package.json";
 
+interface IProps {
+  env: string;
+}
 export class StackStack extends cdk.Stack {
   public readonly lambdaCode: lambda.CfnParametersCode;
-  public readonly env: cdk.CfnParameter;
 
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
-    this.env = new cdk.CfnParameter(this, "Env");
+  constructor(scope: cdk.Construct, id: string, props: IProps) {
+    super(scope, id);
+
     this.lambdaCode = lambda.Code.cfnParameters({
       bucketNameParam: new cdk.CfnParameter(this, "CodeBucket", {
       }),
@@ -18,7 +20,7 @@ export class StackStack extends cdk.Stack {
       }),
     });
 
-    const env = this.env.value.toString();
+    const {env} = props;
     const fn = new lambda.Function(this, "Function", {
       functionName: "Deploy-Test",
       runtime: lambda.Runtime.NODEJS_8_10,
@@ -36,8 +38,8 @@ export class StackStack extends cdk.Stack {
     });
 
     const fnVersion = fn.addVersion(version, undefined, version);
-    const alias = new lambda.Alias(this, `Alias`, {
-      aliasName: this.env.value.toString(),
+    const alias = new lambda.Alias(this, `${env}Alias`, {
+      aliasName: env,
       version: fnVersion,
     });
   }
