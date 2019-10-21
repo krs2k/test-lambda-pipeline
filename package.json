@@ -1,0 +1,11 @@
+{
+  "name": "lambda-test",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "repository": "git@github.com:krs2k/test-lambda-pipeline.git",
+  "author": "krs <k.kamasa@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless": "^1.54.0"
+  }
+}
