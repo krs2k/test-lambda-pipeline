@@ -44,10 +44,16 @@ export class StackStack extends cdk.Stack {
     new apigateway.Stage(this, "ProdStage", {
       stageName: "production",
       deployment,
+      variables: {
+        lambdaAlias: "production",
+      },
     });
     const stage = new apigateway.Stage(this, "DevStage", {
       stageName: "development",
       deployment,
+      variables: {
+        lambdaAlias: "development",
+      },
     });
 
     // const cv = fn.latestVersion;
