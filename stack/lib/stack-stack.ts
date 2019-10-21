@@ -33,21 +33,32 @@ export class StackStack extends cdk.Stack {
       },
 
     });
-    const api = new apigateway.LambdaRestApi(this, "Api", {
-      handler: fn,
+    const api = new apigateway.RestApi(this, "Api", {
     });
 
-    const cv = fn.latestVersion;
-    new lambda.Alias(this, `ProductionAlias`, {
-      aliasName: "production",
-      version: cv,
+    const deployment = new apigateway.Deployment(this, "ApiDeployment", {
+      api,
     });
 
-    const fnVersion = fn.addVersion(version, undefined, version);
-    new lambda.Alias(this, `DevelopmentAlias`, {
-      aliasName: "development",
-      version: fnVersion,
+    new apigateway.Stage(this, "ProdStage", {
+      stageName: "production",
+      deployment,
     });
+    new apigateway.Stage(this, "DevStage", {
+      stageName: "development",
+      deployment,
+    });
+    // const cv = fn.latestVersion;
+    // new lambda.Alias(this, `ProductionAlias`, {
+    //   aliasName: "production",
+    //   version: cv,
+    // });
+    //
+    // const fnVersion = fn.addVersion(version, undefined, version);
+    // new lambda.Alias(this, `DevelopmentAlias`, {
+    //   aliasName: "development",
+    //   version: fnVersion,
+    // });
 
   }
 }
