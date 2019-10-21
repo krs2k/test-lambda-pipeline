@@ -6,7 +6,12 @@ export class StackStack extends cdk.Stack {
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-    this.lambdaCode = lambda.Code.cfnParameters();
+    this.lambdaCode = lambda.Code.cfnParameters({
+      bucketNameParam: new cdk.CfnParameter(this, "CodeBucket", {
+      }),
+      objectKeyParam: new cdk.CfnParameter(this, "CodeObjectKey", {
+      }),
+    });
 
     const fn = new lambda.Function(this, "MyFunction", {
       runtime: lambda.Runtime.NODEJS_8_10,
