@@ -18,6 +18,7 @@ export class StackStack extends cdk.Stack {
       }),
     });
 
+    const env = this.env.value.toString();
     const fn = new lambda.Function(this, "Function", {
       functionName: "Deploy-Test",
       runtime: lambda.Runtime.NODEJS_8_10,
@@ -25,7 +26,7 @@ export class StackStack extends cdk.Stack {
       code: this.lambdaCode,
       tracing: lambda.Tracing.ACTIVE,
       environment: {
-        NODE_ENV: this.env.value.toString(),
+        NODE_ENV: env,
         VERSION: version,
       },
 
@@ -35,7 +36,7 @@ export class StackStack extends cdk.Stack {
     });
 
     const fnVersion = fn.addVersion(version, undefined, version);
-    const alias = new lambda.Alias(this, "Alias", {
+    const alias = new lambda.Alias(this, `${env}Alias`, {
       aliasName: this.env.value.toString(),
       version: fnVersion,
     });
