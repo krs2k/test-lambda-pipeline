@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@aws-cdk/aws-apigateway": "^1.13.1",
+    "@aws-cdk/aws-codedeploy": "^1.13.1",
     "@aws-cdk/aws-ecr": "^1.13.1",
     "@aws-cdk/aws-lambda": "^1.13.1",
     "@aws-cdk/cdk": "^0.36.1",
