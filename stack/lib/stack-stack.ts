@@ -36,7 +36,7 @@ export class StackStack extends cdk.Stack {
     });
 
     const fnVersion = fn.addVersion(version, undefined, version);
-    const alias = new lambda.Alias(this, `${env}Alias`, {
+    const alias = new lambda.Alias(this, `Alias`, {
       aliasName: this.env.value.toString(),
       version: fnVersion,
     });
