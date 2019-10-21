@@ -24,6 +24,5 @@ export class StackStack extends cdk.Stack {
     const api = new apigateway.LambdaRestApi(this, "Api", {
       handler: fn,
     });
-    api.root.addMethod("GET");
   }
 }
