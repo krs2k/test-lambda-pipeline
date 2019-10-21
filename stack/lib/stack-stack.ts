@@ -35,6 +35,7 @@ export class StackStack extends cdk.Stack {
     });
     const api = new apigateway.LambdaRestApi(this, "Api", {
       handler: fn,
+      deployOptions: undefined,
     });
 
     const deployment = new apigateway.Deployment(this, "ApiDeployment", {
